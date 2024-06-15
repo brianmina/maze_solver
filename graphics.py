@@ -16,6 +16,8 @@ class Windows:
 
         #Initialize the running state
         self.__running = False
+
+        self.__root.protocol("WM_DELETE_WINDOW", self.close)
     
     def redraw(self):
         self.__root.update_idletasks()
@@ -25,19 +27,12 @@ class Windows:
         self.__running = True
         while self.__running:
             self.redraw()
+        print("window closed...")
     
     def close(self):
         self.__running = False
 
 
-def main():
-     # Create a Window instance with a width of 800 pixels and height of 600 pixels
-    win = (800, 600)
 
-    # Wait for the window to close
-    win.wait_for_close()
 
-    # Ensure the main function runs when this script is executed
-    if __name__ == "__main__":
-        main()
     
