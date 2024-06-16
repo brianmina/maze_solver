@@ -31,7 +31,26 @@ class Windows:
     
     def close(self):
         self.__running = False
+    
 
+    def draw_line(self, line, fill_color):
+        line.draw(self.__canvas, fill_color)
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+class Line:
+    def __init__(self, point_A, point_B):
+        self.point_A = point_A
+        self.point_B = point_B
+
+    def draw(self, canvas, fill_color):
+        x1, y1 = self.point_A.x, self.point_A.y
+        x2, y2 = self.point_B.x, self.point_B.y
+        print(f'Drawing line from ({x1}, {y1}) to ({x2}, {y2}) with color {fill_color}')  # Debug
+        canvas.create_line(x1, y1, x2, y2, fill=fill_color, width=2)
 
 
 
