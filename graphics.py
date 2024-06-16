@@ -1,83 +1,51 @@
 from tkinter import Tk, BOTH, Canvas
 
-class Windows:
+
+class Window:
     def __init__(self, width, height):
-        # Create the root widget
         self.__root = Tk()
-
-        #Set the title of the window
-        self.__root.title("My window")
-
-        #Create the canvas with the given width and height
-        self.__canvas = Canvas(self.__root, width=width, height=height)
-
-        #Pack the canvas to make it ready for drawing
+        self.__root.title("Maze Solver")
+        self.__root.protocol("WM_DELETE_WINDOW", self.close)
+        self.__canvas = Canvas(self.__root, bg="white", height=height, width=width)
         self.__canvas.pack(fill=BOTH, expand=1)
-
-        #Initialize the running state
         self.__running = False
 
-        self.__root.protocol("WM_DELETE_WINDOW", self.close)
-    
     def redraw(self):
         self.__root.update_idletasks()
         self.__root.update()
-    
+
     def wait_for_close(self):
         self.__running = True
         while self.__running:
             self.redraw()
         print("window closed...")
-    
+
+    def draw_line(self, line, fill_color="black"):
+        line.draw(self.__canvas, fill_color)
+
     def close(self):
         self.__running = False
-    
 
-    def draw_line(self, line, fill_color):
-        line.draw(self.__canvas, fill_color)
 
 class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
+
 class Line:
-    def __init__(self, point_A, point_B):
-        self.point_A = point_A
-        self.point_B = point_B
+    def __init__(
+        self,
+        p1,
+        p2,
+    ):
+        self.p1 = p1
+        self.p2 = p2
 
-    def draw(self, canvas, fill_color):
-        x1, y1 = self.point_A.x, self.point_A.y
-        x2, y2 = self.point_B.x, self.point_B.y
-        print(f'Drawing line from ({x1}, {y1}) to ({x2}, {y2}) with color {fill_color}')  # Debug
-        canvas.create_line(x1, y1, x2, y2, fill=fill_color, width=2)
+    def draw(self, canvas, fill_color="black"):
+        canvas.create_line(
+            self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill=fill_color, width=2
+        )
 
-
-class Cell:
-    def __init__(self, x1, y1, x2, y2, window):
-        #initialize walls
-        self.has_left_wall = True
-        self.has_right_wall = True
-        self.has_top_wal = True
-        self.has_bottom_wall = True
-
-        #Initialize positions
-        self._x1 = x1
-        self._x2 = x2
-        self._y1 = y1
-        self._y2 = y2 
-
-        #Initialize window (check the __win)
-        self._win = window
-    
-    def draw(self):
-        if self.has_left_wall:
-            self._win.draw_line(self._x1, self._y1, self._x1, self._y2)
-        if self.has_right_wall:
-            self._win.draw_line(self._x2, self._y1, self._x2, self._y2)
-        if self.has_top_wall:
-            self._win.draw_line(self._x1, self._y1, self._x2, self._y1)
-        if self.has_bottom_wall:
-            self._win.draw_line(self._x1, self._y2, self._x2, self._y2)
 
     

@@ -1,50 +1,37 @@
-
 from graphics import Line, Point
 
 
 class Cell:
-    def __init__(self, x1, y1, x2, y2, window):
-        #initialize walls
+    def __init__(self, win):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
         self.has_bottom_wall = True
+        self._x1 = None
+        self._x2 = None
+        self._y1 = None
+        self._y2 = None
+        self._win = win
 
-        #Initialize positions
+    def draw(self, x1, y1, x2, y2):
+        if self._win is None:
+            return
         self._x1 = x1
         self._x2 = x2
         self._y1 = y1
-        self._y2 = y2 
-
-        #Initialize window (check the __win)
-        self._win = window
-    
-    def draw(self):
+        self._y2 = y2
         if self.has_left_wall:
-            left_wall = Line(Point(self._x1, self._y1), Point(self._x1, self._y2))
-            self._win.draw_line(left_wall, "black")
-
-        if self.has_right_wall:
-            right_wall = Line(Point(self._x2, self._y1), Point(self._x2, self._y2))
-            self._win.draw_line(right_wall, "black")
-
+            line = Line(Point(x1, y1), Point(x1, y2))
+            self._win.draw_line(line)
         if self.has_top_wall:
-            top_wall = Line(Point(self._x1, self._y1), Point(self._x2, self._y1))
-            self._win.draw_line(top_wall, "black")
-
+            line = Line(Point(x1, y1), Point(x2, y1))
+            self._win.draw_line(line)
+        if self.has_right_wall:
+            line = Line(Point(x2, y1), Point(x2, y2))
+            self._win.draw_line(line)
         if self.has_bottom_wall:
-            bottom_wall = Line(Point(self._x1, self._y2), Point(self._x2, self._y2))
-            self._win.draw_line(bottom_wall, "black")
-    
-    # def draw_move(self, to_cell, undo=False):
-    #     start_x, start_y = self.x, self.y  # Get self's center coordinates
-    #     end_x, end_y = to_cell.x, to_cell.y  # Get to_cell's center coordinates
-
-    #     color = "gray" if undo else "red"  # Choose color based on undo flag
-
-    #     # Assume self.draw_line() draws a line between two points (x1, y1) to (x2, y2) with a given color
-    #     self.draw_line(start_x, start_y, end_x, end_y, color)
-
+            line = Line(Point(x1, y2), Point(x2, y2))
+            self._win.draw_line(line)
 
     def draw_move(self, to_cell, undo=False):
         half_length = abs(self._x2 - self._x1) // 2
@@ -61,3 +48,5 @@ class Cell:
 
         line = Line(Point(x_center, y_center), Point(x_center2, y_center2))
         self._win.draw_line(line, fill_color)
+
+    
