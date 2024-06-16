@@ -1,4 +1,4 @@
-from graphics import Windows, Point, Line
+from graphics import Windows, Point, Line, Cell
 
 
 
@@ -19,6 +19,17 @@ def main():
     # Draw the lines on the window's canvas
     window.draw_line(line1, "black")
     window.draw_line(line2, "red")
+
+    # Create some cells
+    cell1 = Cell(10, 10, 50, 50, window)
+    cell2 = Cell(60, 10, 100, 50, window)
+
+    # Modify walls if needed
+    cell2.has_left_wall = False
+
+    # Draw the cells
+    cell1.draw()
+    cell2.draw()
 
     # Wait for the window to close
     window.wait_for_close()
