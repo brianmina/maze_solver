@@ -1,4 +1,5 @@
 from graphics import Windows, Point, Line, Cell
+from cell import Cell
 
 
 
