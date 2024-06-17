@@ -12,9 +12,10 @@ class Maze:
         num_cols,
         cell_size_x,
         cell_size_y,
-        win,
+        win=None,
     ):
-        self._cells = []
+        self._cells = [[Cell(win) for _ in range(num_cols)] for _ in range(num_rows)]
+        print(f"Initialized Maze with {len(self._cells)} rows and {len(self._cells[0])} cols")
         self._x1 = x1
         self._y1 = y1
         self._num_rows = num_rows
@@ -26,14 +27,13 @@ class Maze:
         self._create_cells()
 
     def _create_cells(self):
-        for i in range(self._num_cols):
-            col_cells = []
-            for j in range(self._num_rows):
-                col_cells.append(Cell(self._win))
-            self._cells.append(col_cells)
-        for i in range(self._num_cols):
-            for j in range(self._num_rows):
-                self._draw_cell(i, j)
+        print(f"Creating cells with parameters: num_rows={self._num_rows}, num_cols={self._num_cols}")
+        print(f"Before creation: {len(self._cells)} rows and {len(self._cells[0])} cols")
+        # Ensure this method sets up cells but does not change grid dimensions
+        for i in range(self._num_rows):
+            for j in range(self._num_cols):
+                self._cells[i][j] = Cell(self._win)
+        print(f"After creation: {len(self._cells)} rows and {len(self._cells[0])} cols")
 
     def _draw_cell(self, i, j):
         if self._win is None:
