@@ -14,8 +14,8 @@ class Maze:
         cell_size_y,
         win=None,
     ):
-        self._cells = [[Cell(win) for _ in range(num_cols)] for _ in range(num_rows)]
-        print(f"Initialized Maze with {len(self._cells)} rows and {len(self._cells[0])} cols")
+        print(f"Initialized Maze with {num_rows} rows and {num_cols} cols")
+        self._cells = []
         self._x1 = x1
         self._y1 = y1
         self._num_rows = num_rows
@@ -25,15 +25,17 @@ class Maze:
         self._win = win
 
         self._create_cells()
+        self._break_entrance_and_exit()
 
     def _create_cells(self):
-        print(f"Creating cells with parameters: num_rows={self._num_rows}, num_cols={self._num_cols}")
-        print(f"Before creation: {len(self._cells)} rows and {len(self._cells[0])} cols")
-        # Ensure this method sets up cells but does not change grid dimensions
-        for i in range(self._num_rows):
-            for j in range(self._num_cols):
-                self._cells[i][j] = Cell(self._win)
-        print(f"After creation: {len(self._cells)} rows and {len(self._cells[0])} cols")
+        for i in range(self._num_cols):
+            col_cells = []
+            for j in range(self._num_rows):
+                col_cells.append(Cell(self._win))
+            self._cells.append(col_cells)
+        for i in range(self._num_cols):
+            for j in range(self._num_rows):
+                self._draw_cell(i, j)
 
     def _draw_cell(self, i, j):
         if self._win is None:
@@ -51,4 +53,8 @@ class Maze:
         self._win.redraw()
         time.sleep(0.05)
 
-
+    def _break_entrance_and_exit(self):
+        self._cells[0][0].has_top_wall = False
+        self._draw_cell(0, 0)
+        self._cells[self._num_cols - 1][self._num_rows - 1].has_bottom_wall = False
+        self._draw_cell(self._num_cols - 1, self._num_rows - 1)
