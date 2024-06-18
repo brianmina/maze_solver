@@ -12,7 +12,10 @@ def main():
     cell_size_y = (screen_y - 2 * margin) / num_rows
     win = Window(screen_x, screen_y)
 
-    maze = Maze(margin, margin, num_rows, num_cols, cell_size_x, cell_size_y, win)
+    print(f"num_rows = {num_rows}, type(num_rows) = {type(num_rows)}")
+    print(f"num_cols = {num_cols}, type(num_cols) = {type(num_cols)}")
+
+    maze = Maze(margin, num_rows, num_cols, cell_size_x, cell_size_y, win, 10)
 
     win.wait_for_close()
 
